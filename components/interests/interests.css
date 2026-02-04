@@ -1,0 +1,127 @@
+/* --- Секция R&D (Interests) --- */
+.interests-grid {
+    display: flex; /* Используем flex для центрирования, если элементов мало */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem; /* Чуть больше воздуха между элитными интересами */
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.interest-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 150px;
+}
+
+.interest-node:hover {
+    transform: translateY(-5px);
+}
+
+/* Обертка круга */
+.node-circle-wrap {
+    position: relative;
+    width: 110px; /* Чуть крупнее */
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+/* Картинка */
+.node-img {
+    width: 94px;
+    height: 94px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+    background: #000;
+}
+
+.node-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: grayscale(0.8) contrast(1.2) brightness(0.8); /* Строгий "дарк" стиль */
+}
+
+.interest-node:hover .node-img img {
+    transform: scale(1.1);
+    filter: grayscale(0) contrast(1) brightness(1);
+}
+
+.interest-node:hover .node-img {
+    border-color: var(--c-neon-green, #0f0);
+    box-shadow: 0 0 25px var(--c-neon-green, #0f0);
+}
+
+/* Вращающееся кольцо */
+.node-rotate-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px dashed rgba(0, 255, 255, 0.3);
+    z-index: 1;
+    animation: spin-slow 15s linear infinite;
+    transition: all 0.3s ease;
+}
+
+.interest-node:hover .node-rotate-border {
+    border-color: var(--c-neon-purple, #b026ff);
+    border-style: solid;
+    border-width: 1px;
+    animation-duration: 2s;
+    box-shadow: 0 0 10px var(--c-neon-purple, #b026ff);
+}
+
+/* Основной текст */
+.node-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 2px 4px #000;
+}
+
+/* Подпись (суть навыка) */
+.node-sub {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.75rem;
+    color: var(--c-neon-cyan, #0ff);
+    opacity: 0.7;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.interest-node:hover .node-sub {
+    opacity: 1;
+    color: var(--c-neon-pink, #f0f);
+}
+
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .interests-grid {
+        gap: 2rem;
+    }
+    .interest-node {
+        width: 45%; /* Два в ряд на мобильном */
+    }
+}

@@ -1,0 +1,92 @@
+/* --- СТИЛИ ДЛЯ МЕДВЕДЯ (АДАПТИВНЫЕ) --- */
+.bear-wrapper {
+  position: absolute;
+  /* Привязываем топ к высоте хедера, если нужно, или оставляем небольшой минус */
+  top: clamp(-15px, -1.5vw, -25px); 
+  
+  /* Резиновая позиция: на больших экранах дальше от края, на маленьких ближе */
+  right: clamp(5%, 10vw, 17%); 
+  
+  /* Резиновая ширина: от 80px на мобилках до 180px на десктопе */
+  width: clamp(80px, 12vw, 180px); 
+  
+  z-index: 1500;
+  transform-origin: top center;
+  pointer-events: none;
+  will-change: transform;
+  animation: dropIn 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.bear-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: auto;
+  cursor: grab;
+  /* Оптимизируем фильтры (слишком много drop-shadow могут тормозить мобилки) */
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.6));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+/* Ховер эффект */
+.bear-wrapper:hover .bear-img {
+  filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.9));
+  transform: scale(1.05); /* Легкий зум при наведении */
+}
+
+/* --- АДАПТИВНАЯ ЛОГИКА --- */
+
+/* Планшеты и небольшие ноутбуки */
+@media (max-width: 1024px) {
+  .bear-wrapper {
+    /* Сдвигаем медведя, чтобы он не мешал навигации */
+    right: 10%;
+  }
+}
+
+/* Смартфоны */
+@media (max-width: 768px) {
+  .bear-wrapper {
+    /* На мобилках навигация обычно скрыта в бургер, 
+       поэтому можем поставить его чуть ближе к центру или краю */
+    right: 5%;
+    top: -10px;
+    /* Уменьшаем анимацию, чтобы не перекрывала контент при загрузке */
+    animation-duration: 1.2s;
+  }
+}
+
+/* Очень маленькие экраны (iPhone SE и т.д.) */
+@media (max-width: 380px) {
+  .bear-wrapper {
+    width: 70px;
+    right: 2%;
+  }
+}
+
+/* --- АНИМАЦИИ (ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ) --- */
+@keyframes dropIn {
+  from { transform: translateY(-300px); }
+  to { transform: translateY(0); }
+}
+
+.swing-left { animation: swingLeft 2s ease-out forwards; }
+.swing-right { animation: swingRight 2s ease-out forwards; }
+
+@keyframes swingLeft {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(15deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(5deg); }
+  80% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes swingRight {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(-15deg); }
+  40% { transform: rotate(10deg); }
+  60% { transform: rotate(-5deg); }
+  80% { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}

@@ -1,0 +1,19 @@
+/* Добавьте в styles.css */
+.arcade-viewport {
+    position: relative;
+    width: 100%;
+    height: 600px; /* Обязательная высота */
+    background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
+    border-radius: 12px;
+    border: 1px solid var(--c-neon-blue, #00ffff);
+    overflow: hidden;
+    margin-bottom: 4rem;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+/* На мобильных высоту можно поменьше */
+@media (max-width: 768px) {
+    .arcade-viewport {
+        height: 400px;
+    }
+}

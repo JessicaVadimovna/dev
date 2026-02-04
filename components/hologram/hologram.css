@@ -1,0 +1,88 @@
+/* === ОБЩАЯ ОБЕРТКА === */
+.hologram-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #020205;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* === 3D КОНТЕЙНЕР === */
+.hologram-container {
+    position: relative;
+    z-index: 5;
+    margin: auto;
+    
+    /* Desktop */
+    width: 90%;
+    max-width: 1100px;
+    height: 550px;
+    
+    background-color: rgba(5, 5, 16, 0.6);
+    background-image: 
+        radial-gradient(circle at center, transparent 0%, #020205 140%),
+        linear-gradient(rgba(0, 213, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 213, 255, 0.08) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    background-position: center center;
+
+    border: 1px solid rgba(0, 213, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 213, 255, 0.05);
+    overflow: hidden;
+    user-select: none;
+}
+
+/* === UI ТЕКСТ === */
+.holo-ui-container {
+    position: absolute; 
+    bottom: 30px; /* Чуть выше от нижнего края */
+    left: 0; 
+    width: 100%;
+    pointer-events: none;
+    z-index: 10;
+    display: flex; 
+    justify-content: center;
+    transition: opacity 0.4s ease;
+}
+
+.holo-glass-panel {
+    background: rgba(5, 5, 16, 0.85);
+    backdrop-filter: blur(8px);
+    border-top: 2px solid rgba(0, 213, 255, 0.6);
+    border-bottom: 1px solid rgba(0, 213, 255, 0.1);
+    padding: 15px 40px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    border-radius: 4px;
+    min-width: 260px;
+}
+
+.holo-title { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: 4px; margin-bottom: 5px; text-shadow: 0 0 12px currentColor; }
+.holo-subtitle { font-size: 0.75rem; opacity: 0.8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.15); display: inline-block; padding-bottom: 5px; }
+.holo-desc { font-size: 0.9rem; color: #aaa; }
+
+/* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
+@media (max-width: 768px) {
+    .hologram-wrapper { height: 100vh; }
+    
+    .hologram-container {
+        width: 94%;
+        height: auto;
+        aspect-ratio: 1 / 1.15; /* Чуть выше квадрата */
+        max-height: 550px;
+        background-size: 100% 100%, 25px 25px, 25px 25px;
+    }
+    
+    /* Текст оставляем внизу */
+    .holo-ui-container { bottom: 20px; }
+    
+    .holo-glass-panel {
+        width: 85%;
+        padding: 15px 20px;
+    }
+}

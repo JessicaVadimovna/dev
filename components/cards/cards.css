@@ -1,0 +1,321 @@
+/* =========================================
+   ГЛОБАЛЬНЫЕ НАСТРОЙКИ РЕЗИНЫ
+   ========================================= */
+:root {
+  --cyan: #00e5ff;
+  /* Резиновые шрифты: от 13px до 18px */
+  --fs-main: clamp(0.8rem, 0.6vw + 0.5rem, 1.1rem);
+  --fs-title: clamp(1rem, 0.8vw + 0.6rem, 1.3rem);
+}
+
+/* Контейнер: теперь он более гибкий */
+.hud-main-wrapper {
+  display: grid;
+  /* minmax(250px) позволяет карточкам становиться очень узкими, прежде чем переноситься */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* Уменьшаем расстояние между карточками на маленьких экранах */
+  gap: clamp(10px, 2vw, 25px);
+  /* Отступы от краев экрана теперь тоже резиновые */
+  padding: clamp(10px, 3vw, 30px);
+  max-width: 1400px;
+  margin: 0 auto;
+  perspective: 1200px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Базовая карточка стала компактнее */
+.tech-card {
+  position: relative;
+  /* Паддинги внутри карточки сжимаются */
+  padding: clamp(12px, 2vw, 20px);
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+/* Заголовки */
+.tech-title {
+  font-size: var(--fs-title);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   ОБРАЗОВАНИЕ (МИНИМАЛИЗМ)
+   ========================================= */
+.edu-minimal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edu-row {
+  display: flex;
+  justify-content: space-between; /* Расставляем текст по краям для экономии места */
+  align-items: baseline;
+  font-size: var(--fs-main);
+}
+
+.label {
+  font-family: monospace;
+  opacity: 0.5;
+  font-size: 0.75rem;
+}
+
+.value.highlight {
+  color: var(--cyan);
+  font-weight: bold;
+}
+
+/* =========================================
+   ОПЫТ (КОМПАКТНЫЙ ТАЙМЛАЙН)
+   ========================================= */
+.timeline-container {
+  border-left: 1px solid rgba(0, 229, 255, 0.2);
+  padding-left: 15px;
+  margin-left: 5px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 12px; /* Уменьшили отступ */
+}
+
+.timeline-date {
+  font-size: 0.7rem;
+  color: var(--cyan);
+  font-family: monospace;
+}
+
+.timeline-job {
+  font-size: var(--fs-main);
+  margin: 2px 0;
+  font-weight: bold;
+}
+
+.timeline-role {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* =========================================
+   АДАПТИВ: ПРИНУДИТЕЛЬНОЕ УМЕНЬШЕНИЕ
+   ========================================= */
+@media (max-width: 1100px) {
+  /* На средних экранах уменьшаем общую плотность, чтобы всё влезло в ряд */
+  :root {
+    --fs-main: 0.85rem;
+    --fs-title: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Когда экран совсем мал, 3D эффекты мешают обзору */
+  .left-monitor, .right-monitor {
+    transform: none !important;
+  }
+  
+  .hud-main-wrapper {
+    /* На мобилках всё же переходим в 1 колонку, чтобы не ломать глаза */
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   2. HUD СИСТЕМА (Главная обертка)
+   ========================================= */
+
+.hud-main-wrapper {
+    padding-top: 10px;
+    min-height: auto;
+    display: flex;
+    justify-content: center;
+    perspective: 1500px; 
+    gap: 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.hud-column {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   3. 3D МОНИТОРЫ (Левый и Правый)
+   ========================================= */
+
+.left-monitor {
+    width: 400px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    transform: rotateY(10deg) translateZ(-20px);
+    transform-origin: right center;
+    transition: 0.5s;
+    transform-style: preserve-3d;
+}
+
+.right-monitor {
+    width: 400px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    transform: rotateY(-10deg) translateZ(-20px);
+    transform-origin: left center;
+    transition: 0.5s;
+    transform-style: preserve-3d;
+}
+
+
+/* =========================================
+   4. КАРТОЧКИ ВНУТРИ МОНИТОРОВ
+   ========================================= */
+
+/* Базовое состояние */
+.left-monitor .tech-card,
+.right-monitor .tech-card {
+    transform: rotateY(0deg) translateZ(0); 
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.4s ease, 
+                z-index 0s;
+}
+
+/* Hover на левом мониторе */
+.left-monitor .tech-card:hover {
+    transform: rotateY(-10deg) scale(1.05) translateZ(50px);
+    z-index: 100;
+    box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover на правом мониторе */
+.right-monitor .tech-card:hover {
+    transform: rotateY(10deg) scale(1.05) translateZ(50px);
+    z-index: 100;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+
+
+
+
+/* =========================================
+   6. МОДУЛИ (Сетка и карточки)
+   ========================================= */
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.module-block {
+    background: rgba(10, 15, 20, 0.7);
+    border: 1px solid #333;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+/* Декоративная линия сверху */
+.module-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #333;
+    transition: 0.3s;
+}
+
+.module-block:hover::before {
+    background: #00e5ff;
+}
+
+.module-block:hover {
+    transform: scale(1.02);
+    border-color: #00e5ff;
+    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.15);
+}
+
+
+/* =========================================
+   7. СОДЕРЖИМОЕ МОДУЛЕЙ
+   ========================================= */
+
+.module-icon {
+    font-size: 2.5rem;
+    color: #555;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.module-block:hover .module-icon {
+    color: #00e5ff;
+    text-shadow: 0 0 15px #00e5ff;
+    transform: scale(1.1);
+}
+
+.module-block h3 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.module-block p {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    font-family: monospace;
+}
+
+
+/* =========================================
+   8. КНОПКИ МОДУЛЕЙ
+   ========================================= */
+
+.btn-module {
+    background: transparent;
+    border: 1px solid #555;
+    color: #888;
+    padding: 8px 30px;
+    font-family: monospace;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.module-block:hover .btn-module {
+    border-color: #00e5ff;
+    color: #00e5ff;
+    box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.btn-module:hover {
+    background: #00e5ff !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px #00e5ff !important;
+}

@@ -1,0 +1,76 @@
+/* components/skills/skills.css */
+.panels-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.glass-panel {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 4px;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Акцент на главном навыке */
+.glass-panel.main {
+  background: rgba(0, 243, 255, 0.05);
+  border-color: var(--c-neon-cyan);
+}
+.glass-panel.main::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 4px; background: var(--c-neon-cyan);
+}
+
+.gp-icon {
+  font-size: 1.5rem;
+  color: #fff;
+  width: 40px;
+  display: flex; justify-content: center;
+}
+.glass-panel.main .gp-icon { color: var(--c-neon-cyan); }
+
+.gp-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.gp-title {
+  font-family: 'Bebas Neue';
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.gp-desc {
+  font-size: 0.7rem;
+  color: #888;
+  font-family: monospace;
+}
+
+/* Hover */
+.glass-panel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.gp-chips {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.gp-chips span {
+  font-size: 0.7rem;
+  color: #666;
+  border: 1px solid #333;
+  padding: 4px 8px;
+  border-radius: 20px;
+  display: flex; align-items: center; gap: 5px;
+}

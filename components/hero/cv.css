@@ -1,0 +1,316 @@
+/* =========================================
+   DOWNLOAD MODULE
+   ========================================= */
+
+.download-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Общий стиль кнопок */
+.dl-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    text-decoration: none;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dl-icon {
+    font-size: 1.4rem;
+    width: 30px;
+    display: flex; justify-content: center;
+}
+
+.dl-info {
+    display: flex; 
+    flex-direction: column;
+}
+
+.dl-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.dl-sub {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* --- СТИЛЬ LITE (Строгий) --- */
+.dl-lite {
+    border-left: 2px solid var(--c-neon-cyan);
+}
+.dl-lite .dl-icon { color: var(--c-neon-cyan); }
+
+.dl-lite:hover {
+    background: rgba(0, 243, 255, 0.05);
+    border-color: var(--c-neon-cyan);
+    transform: translateX(5px);
+}
+.dl-lite:hover .dl-name { color: var(--c-neon-cyan); }
+
+/* Индикатор статуса для Lite */
+.dl-status {
+    width: 6px; height: 6px; 
+    background: #333; 
+    border-radius: 50%; 
+    margin-left: auto;
+    box-shadow: 0 0 0 1px #555;
+    transition: 0.3s;
+}
+.dl-lite:hover .dl-status { background: var(--c-neon-cyan); box-shadow: 0 0 5px var(--c-neon-cyan); }
+
+
+/* --- СТИЛЬ PRO (Акцентный) --- */
+.dl-pro {
+    border: 1px solid var(--c-neon-green);
+    background: rgba(0, 255, 65, 0.05);
+}
+.dl-pro .dl-icon { color: var(--c-neon-green); }
+.dl-pro .dl-sub { color: var(--c-neon-green); opacity: 0.7; }
+
+/* Декор уголок для PRO */
+.dl-corner {
+    position: absolute; bottom: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 0 15px 15px;
+    border-color: transparent transparent var(--c-neon-green) transparent;
+    transition: 0.3s;
+}
+
+.dl-pro:hover {
+    background: var(--c-neon-green);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    transform: translateX(5px);
+}
+.dl-pro:hover .dl-icon, 
+.dl-pro:hover .dl-name, 
+.dl-pro:hover .dl-sub { 
+    color: #000; 
+}
+.dl-pro:hover .dl-corner { border-color: transparent transparent #000 transparent; }
+
+/* =========================================
+   НОВЫЙ БЛОК РЕЗЮМЕ (DATA CARD)
+   ========================================= */
+
+/* Специфичный стиль для карточки данных */
+.data-card {
+    background: linear-gradient(180deg, rgba(10,15,20,0.8) 0%, rgba(5,5,5,0.9) 100%);
+    overflow: hidden; /* Чтобы анимация не вылезала */
+}
+
+/* Индикатор в заголовке */
+.live-indicator {
+    width: 8px; height: 8px;
+    background: var(--c-neon-green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--c-neon-green);
+    animation: blink 2s infinite;
+}
+
+.data-inner-wrapper {
+    position: relative;
+    padding-top: 10px;
+}
+
+/* --- ФОНОВАЯ СЕТКА (SCAN GRID) --- */
+.scan-grid {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: 0;
+    pointer-events: none;
+}
+/* Сканирующая полоска */
+.scan-grid::after {
+    content: ''; position: absolute; top: -50%; left: 0; width: 100%; height: 50%;
+    background: linear-gradient(to bottom, transparent, rgba(0, 255, 65, 0.1));
+    animation: scanDown 4s linear infinite;
+}
+
+@keyframes scanDown {
+    0% { top: -50%; }
+    100% { top: 150%; }
+}
+
+/* --- МЕТА ДАННЫЕ (Текст сверху) --- */
+.file-meta {
+    display: flex; justify-content: space-between;
+    font-family: monospace; font-size: 0.7rem; color: #666;
+    margin-bottom: 15px; position: relative; z-index: 1;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+}
+.meta-item .val { color: #fff; font-weight: bold; margin-left: 5px; }
+.meta-item .val.green { color: var(--c-neon-green); }
+
+/* --- КНОПКИ (STACK) --- */
+.download-stack {
+    display: flex; flex-direction: column; gap: 12px;
+    position: relative; z-index: 2;
+}
+
+.cyber-dl-btn {
+    display: flex; align-items: center; gap: 15px;
+    padding: 12px 15px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.4);
+    transition: 0.3s;
+    position: relative;
+    /* Срезанный угол */
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    color: #555; transition: 0.3s;
+}
+.btn-text { display: flex; flex-direction: column; }
+.b-title { font-weight: bold; color: #ccc; font-size: 0.9rem; letter-spacing: 1px; transition: 0.3s; }
+.b-sub { font-size: 0.6rem; color: #555; font-family: monospace; transition: 0.3s; }
+
+/* Стиль LITE */
+.cyber-dl-btn.lite:hover {
+    border-color: var(--c-neon-cyan);
+    background: rgba(0, 243, 255, 0.05);
+}
+.cyber-dl-btn.lite:hover .btn-icon,
+.cyber-dl-btn.lite:hover .b-title { color: var(--c-neon-cyan); }
+
+/* Стиль PRO */
+.cyber-dl-btn.pro {
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+.cyber-dl-btn.pro:hover {
+    background: var(--c-neon-green);
+    border-color: var(--c-neon-green);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+    transform: translateY(-2px);
+}
+.cyber-dl-btn.pro:hover .btn-icon,
+.cyber-dl-btn.pro:hover .b-title,
+.cyber-dl-btn.pro:hover .b-sub { color: #000; }
+
+/* --- НИЖНИЙ СТАТУС --- */
+.upload-status {
+    margin-top: 15px;
+    font-size: 0.65rem; color: #444; font-family: monospace;
+    text-align: right;
+}
+.upload-status i { color: var(--c-neon-green); animation: blink 0.5s infinite; }
+
+/* CV Buttons */
+.cv-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cv-btn {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.cv-icon {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    width: 24px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.cv-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.cv-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.cv-desc {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 2px;
+}
+
+.cv-btn.lite {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cv-btn.lite .cv-icon {
+    color: #888;
+}
+
+.cv-btn.lite:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #fff;
+}
+
+.cv-btn.lite:hover .cv-icon {
+    color: #fff;
+}
+
+.cv-btn.pro {
+    background: rgba(0, 255, 65, 0.08);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.cv-btn.pro .cv-icon {
+    color: var(--c-neon-green);
+}
+
+.cv-btn.pro .cv-desc {
+    color: rgba(0, 255, 65, 0.7);
+}
+
+.cv-btn.pro:hover {
+    background: var(--c-neon-green);
+    border-color: var(--c-neon-green);
+    box-shadow: 0 4px 15px rgba(0, 255, 65, 0.2);
+    transform: translateY(-2px);
+}
+
+.cv-btn.pro:hover .cv-name,
+.cv-btn.pro:hover .cv-desc,
+.cv-btn.pro:hover .cv-icon {
+    color: #000;
+}
+
+.active-dot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 6px;
+    height: 6px;
+    background: var(--c-neon-green);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--c-neon-green);
+}

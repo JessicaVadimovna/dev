@@ -1,0 +1,637 @@
+/* --- VARIABLES (Используем глобальные, если они есть, или фолбэк) --- */
+:root {
+  --h-height: 70px;
+  --h-bg: rgba(5, 5, 5, 0.85);
+  --h-neon: #00ff41;
+  --h-accent: #00f3ff;
+  --h-text: #e0f2f1;
+}
+
+/* --- HEADER BASE --- */
+.sys-header {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  height: var(--h-height);
+  background: var(--h-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* Скрываем хедер при скролле вниз (опционально через JS), 
+   но пока оставим фиксированным */
+
+.sys-header-container {
+  max-width: 1800px;
+  margin: 0px auto;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- LOGO --- */
+.sys-logo {
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: #fff;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.logo-bracket {
+  color: var(--h-neon);
+  transition: 0.3s;
+}
+
+.sys-logo:hover .logo-bracket {
+  color: var(--h-accent);
+  text-shadow: 0 0 10px var(--h-accent);
+}
+
+/* --- DESKTOP NAV --- */
+.sys-nav-desktop {
+  display: flex;
+  gap: 30px;
+}
+
+.sys-link {
+  position: relative;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.3s;
+  padding: 5px 0;
+}
+
+.sys-link::before {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0%; height: 2px;
+  background: var(--h-neon);
+  box-shadow: 0 0 10px var(--h-neon);
+  transition: 0.3s ease;
+}
+
+.sys-link:hover, .sys-link.active {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.sys-link:hover::before, .sys-link.active::before {
+  width: 100%;
+}
+
+/* Эффект хакерского текста при наведении */
+.sys-link:hover::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--h-neon);
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  animation: glitch-anim 0.3s infinite linear alternate-reverse;
+  opacity: 0;
+}
+
+@keyframes glitch-anim {
+  0% { transform: translate(-2px, 0); opacity: 1; }
+  100% { transform: translate(2px, 0); opacity: 1; }
+}
+
+/* --- PROGRESS LINE --- */
+.header-progress-line {
+  position: absolute;
+  bottom: -1px; left: 0;
+  height: 2px;
+  background: var(--h-accent);
+  width: 0%;
+  box-shadow: 0 0 15px var(--h-accent);
+  transition: width 0.1s;
+}
+
+/* --- BURGER BUTTON --- */
+.sys-burger {
+  display: none; /* Скрыт на десктопе */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 40px; height: 40px;
+  position: relative;
+  z-index: 1100;
+}
+
+.burger-box {
+  width: 30px; height: 24px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  margin: auto;
+}
+
+.burger-inner, .burger-inner::before, .burger-inner::after {
+  display: block;
+  width: 100%; height: 2px;
+  background: var(--h-neon);
+  transition: 0.3s;
+  position: absolute;
+}
+.burger-inner { top: 50%; transform: translateY(-50%); }
+.burger-inner::before { content: ''; top: -10px; }
+.burger-inner::after { content: ''; top: 10px; }
+
+/* Active Burger */
+.sys-burger.active .burger-inner { background: transparent; }
+.sys-burger.active .burger-inner::before { transform: rotate(45deg); top: 0; background: var(--h-accent); }
+.sys-burger.active .burger-inner::after { transform: rotate(-45deg); top: 0; background: var(--h-accent); }
+
+/* --- MOBILE MENU OVERLAY --- */
+.sys-mobile-menu {
+  position: fixed;
+  top: 0; right: -100%;
+  width: 100%; height: 100vh;
+  background: rgba(10, 12, 15, 0.98);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.sys-mobile-menu.open {
+  right: 0;
+}
+
+.sys-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  text-align: center;
+}
+
+.mobile-link {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  color: #8899a6;
+  text-decoration: none;
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.sys-mobile-menu.open .mobile-link {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s; /* Будет пересчитано в JS для каскада */
+}
+
+.mobile-link:hover {
+  color: var(--h-neon);
+  letter-spacing: 3px;
+  text-shadow: 0 0 15px var(--h-neon);
+}
+
+.sys-menu-footer {
+  position: absolute;
+  bottom: 40px;
+  font-family: monospace;
+  color: #555;
+  border-top: 1px dashed #333;
+  padding-top: 20px;
+  width: 80%;
+  text-align: center;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .sys-nav-desktop { display: none; }
+  .sys-burger { display: block; }
+  .sys-header-container { padding: 0 1.5rem; }
+}
+
+
+/* =========================================
+   HEADER & NAVIGATION
+   ========================================= */
+
+.neon-header {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    background: rgba(10, 15, 30, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 4px;
+    padding: 10px 30px;
+    box-shadow: 
+        0 0 15px rgba(0, 243, 255, 0.2),
+        inset 0 0 20px rgba(0, 243, 255, 0.1);
+}
+
+.neon-nav {
+    display: flex;
+    gap: 30px;
+}
+
+.neon-link {
+    text-decoration: none;
+    color: var(--c-neon-cyan);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.neon-link i {
+    font-size: 1rem;
+}
+
+.neon-link:hover, 
+.neon-link.active {
+    opacity: 1;
+    text-shadow: 0 0 10px var(--c-neon-cyan);
+}
+
+.neon-burger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--c-neon-cyan);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Legacy header (если используется) */
+.cyber-header {
+    height: 90px;
+    padding: 0 30px;
+    background: rgba(8, 8, 12, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    border-bottom: 2px solid var(--c-neon-green);
+    clip-path: polygon(
+        0 0, 100% 0, 
+        100% 70%, 98% 100%, 
+        2% 100%, 0 70%
+    );
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.cyber-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg, rgba(0,255,65,0.05) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(0,255,65,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.cyber-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--c-neon-cyan), transparent);
+    animation: scan-horizontal 3s linear infinite;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    line-height: 1;
+    text-shadow: 0 0 10px var(--c-neon-green);
+}
+
+.logo-sub {
+    font-size: 0.6rem;
+    color: var(--c-neon-cyan);
+    letter-spacing: 2px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.header-data {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-family: monospace;
+    font-size: 0.8rem;
+}
+
+.data-block {
+    text-align: right;
+    border-right: 2px solid var(--c-neon-pink);
+    padding-right: 10px;
+    color: var(--c-text-dim);
+}
+
+.data-block span {
+    display: block;
+    color: var(--c-neon-cyan);
+    font-weight: bold;
+}
+
+/* Menu button */
+.menu-button {
+    width: 45px;
+    height: 45px;
+    background: transparent;
+    border: 1px solid var(--c-neon-green);
+    clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    z-index: 101;
+}
+
+.menu-button:hover {
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: var(--border-glow);
+}
+
+.menu-line {
+    width: 20px;
+    height: 2px;
+    background: var(--c-neon-green);
+    margin: 3px 0;
+    transition: 0.3s;
+    box-shadow: 0 0 5px var(--c-neon-green);
+}
+
+.cyber-menu {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 320px;
+    height: 100vh;
+    background: rgba(10, 12, 16, 0.95);
+    border-right: 1px solid var(--c-neon-green);
+    backdrop-filter: blur(15px);
+    z-index: 1000;
+    transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+    padding: 120px 2rem 2rem;
+    box-shadow: 10px 0 50px rgba(0,0,0,0.5);
+}
+
+.cyber-menu.active {
+    left: 0;
+}
+
+.menu-link {
+    display: block;
+    color: var(--c-text-dim);
+    text-decoration: none;
+    font-size: 1.4rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    transition: 0.3s;
+}
+
+.menu-link:hover {
+    color: var(--c-neon-cyan);
+    padding-left: 15px;
+    text-shadow: 0 0 8px var(--c-neon-cyan);
+}
+
+.menu-link::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    color: var(--c-neon-pink);
+    transition: 0.3s;
+}
+
+.menu-link:hover::before {
+    opacity: 1;
+    left: 0;
+}
+
+
+
+
+
+
+
+/* --- ПЕРЕМЕННЫЕ (System Config) --- */
+:root {
+  --h-bg: rgba(5, 5, 5, 0.9);
+  --h-neon: #00ff41;
+  --h-accent: #00f3ff;
+  --h-text: #e0f2f1;
+  
+  /* Резиновые параметры */
+  --h-height: clamp(60px, 8vh, 80px); 
+  --h-px: clamp(15px, 5vw, 60px);    /* Резиновый отступ по бокам */
+  --fs-logo: clamp(1.3rem, 2vw + 0.5rem, 1.8rem);
+  --fs-nav: clamp(0.7rem, 0.8vw + 0.1rem, 0.9rem);
+}
+
+/* --- ОСНОВНОЙ БЛОК --- */
+.sys-header {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100%;
+  height: var(--h-height);
+  background: var(--h-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.sys-header-container {
+  width: 100%;
+  max-width: 1800px; /* Лимит для ультра-широких экранов */
+  margin: 0 auto;
+  padding: 0 var(--h-px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: padding 0.3s ease;
+}
+
+/* --- LOGO --- */
+.sys-logo {
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: var(--fs-logo);
+  color: #fff;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap; /* Запрет переноса лого */
+}
+
+.logo-bracket {
+  color: var(--h-neon);
+  transition: 0.3s;
+}
+
+/* --- NAV (DESKTOP) --- */
+.sys-nav-desktop {
+  display: flex;
+  /* Расстояние между ссылками плавно сжимается от 35px до 15px */
+  gap: clamp(15px, 2.5vw, 35px);
+  align-items: center;
+}
+
+.sys-link {
+  position: relative;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: 'Courier Prime', monospace;
+  font-size: var(--fs-nav);
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 5px 0;
+  white-space: nowrap; /* Ссылки не переносятся по словам */
+}
+
+/* Линия подчеркивания */
+.sys-link::before {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0%; height: 2px;
+  background: var(--h-neon);
+  box-shadow: 0 0 10px var(--h-neon);
+  transition: 0.3s ease;
+}
+
+.sys-link:hover, .sys-link.active {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+}
+
+.sys-link:hover::before, .sys-link.active::before {
+  width: 100%;
+}
+
+/* --- BURGER BUTTON --- */
+.sys-burger {
+  display: none; /* Скрыт по умолчанию */
+  background: transparent;
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1100;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.sys-burger:hover {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: var(--h-neon);
+}
+
+.burger-box {
+  width: 26px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.burger-line {
+  width: 100%;
+  height: 2px;
+  background: var(--h-neon);
+  box-shadow: 0 0 5px var(--h-neon);
+  transition: 0.3s;
+}
+
+/* --- PROGRESS BAR (Top) --- */
+.header-progress-line {
+  position: absolute;
+  bottom: -1px; left: 0;
+  height: 2px;
+  background: var(--h-accent);
+  width: 0%; /* Управляется через JS скролл */
+  box-shadow: 0 0 15px var(--h-accent);
+  z-index: 1001;
+}
+
+/* --- ADAPTIVE LOGIC --- */
+
+/* Планшеты (сжимаем всё до предела) */
+@media (max-width: 1024px) {
+  :root {
+    --h-px: 20px;
+  }
+}
+
+/* Точка перехода на мобильное меню */
+@media (max-width: 850px) {
+  .sys-nav-desktop {
+    display: none; /* Убираем текст, чтобы не наезжал на лого */
+  }
+  
+  .sys-burger {
+    display: block; /* Показываем бургер */
+  }
+  
+  .sys-header-container {
+    padding: 0 20px;
+  }
+}
+
+/* Мини-экраны */
+@media (max-width: 480px) {
+  :root {
+    --fs-logo: 1.2rem;
+  }
+  .sys-header {
+    height: 60px;
+  }
+}

@@ -1,0 +1,119 @@
+:root {
+    /* Настраиваем бирюзовую палитру */
+    --c-turq-main: #00f2ea;       /* Основной неоновый бирюзовый */
+    --c-turq-dark: #008c8c;       /* Темный оттенок для глубины */
+    --c-turq-glow: rgba(0, 242, 234, 0.6); /* Цвет свечения */
+    --c-bg-deep: #050505;         /* Глубокий черный фон */
+    --c-text-mute: #5a6b7c;       /* Приглушенный текст */
+}
+
+/* =========================================
+   TURQUOISE CYBER LOADER
+   ========================================= */
+.simple-loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background-color: var(--c-bg-deep);
+    z-index: 99999;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Центрируем контент вертикально */
+    
+    /* Оптимизация производительности */
+    will-change: opacity, visibility;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+}
+
+.simple-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-wrapper {
+    width: 320px;
+    font-family: "JetBrains Mono", "Courier New", monospace;
+    position: relative;
+}
+
+/* Верхняя инфо-строка */
+.loader-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sys-text { color: var(--c-text-mute); }
+.sys-status { 
+    color: var(--c-turq-main); 
+    font-weight: 700; 
+    text-shadow: 0 0 8px var(--c-turq-glow);
+}
+
+/* Трек прогресс-бара */
+.progress-track {
+    width: 100%;
+    height: 6px; /* Чуть толще для солидности */
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    position: relative;
+    overflow: visible;
+    margin-bottom: 12px;
+    /* Легкая рамка для стиля */
+    border: 1px solid rgba(0, 242, 234, 0.1);
+}
+
+/* Заполнение бара */
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--c-turq-main);
+    border-radius: 2px;
+    box-shadow: 0 0 15px var(--c-turq-glow);
+    /* Плавность движения через CSS для сглаживания рывков JS */
+    transition: width 0.1s linear; 
+}
+
+/* Головной элемент (свечение) */
+.progress-glow {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 20px; 
+    height: 10px;
+    background: radial-gradient(circle, #fff 0%, var(--c-turq-main) 60%, transparent 100%);
+    box-shadow: 0 0 20px var(--c-turq-main);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transition: left 0.1s linear; 
+}
+
+/* Нижняя статистика */
+.loader-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    color: var(--c-text-mute);
+    font-size: 0.7rem;
+}
+
+.percent-text {
+    font-size: 2rem; /* Крупный процент */
+    line-height: 1;
+    color: #fff;
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.mem-box {
+    text-align: right;
+}
+.mem-label { font-size: 0.6rem; display: block; margin-bottom: 2px;}
+.mem-val { color: var(--c-turq-main); }

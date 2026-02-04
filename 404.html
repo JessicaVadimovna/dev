@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modern Three.js Test</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        overflow: hidden;
+      }
+      #container {
+        width: 100vw;
+        height: 100vh;
+      }
+      #info {
+        position: absolute;
+        top: 10px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-family: monospace;
+        pointer-events: none;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info">ЗАГРУЗКА МОДУЛЕЙ...</div>
+    <div id="container"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+      import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+
+      const container = document.getElementById("container");
+      const info = document.getElementById("info");
+
+      // 1. Сцена
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x111111);
+
+      // 2. Камера
+      const camera = new THREE.PerspectiveCamera(
+        50,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        100,
+      );
+      camera.position.set(0, 0, 5);
+
+      // 3. Рендерер
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; // Новый стандарт цвета
+      container.appendChild(renderer.domElement);
+
+      // 4. Свет
+      const light = new THREE.DirectionalLight(0xffffff, 3);
+      light.position.set(1, 1, 1);
+      scene.add(light);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+      // 5. Загрузчики
+      const loader = new GLTFLoader();
+      const dracoLoader = new DRACOLoader();
+      // Используем Google CDN для декодера (версия совместима с r160)
+      dracoLoader.setDecoderPath(
+        "https://www.gstatic.com/draco/versioned/decoders/1.5.6/",
+      );
+      loader.setDRACOLoader(dracoLoader);
+
+      info.innerText = "ЗАГРУЗКА МОДЕЛИ...";
+
+      // === ПРОВЕРКА ===
+      // Сначала пробуем загрузить ТВОЮ модель.
+      // Если не сработает, раскомментируй строку ниже с тестовой моделью.
+      const modelPath = "assets/3d/arcade.glb";
+
+      // ТЕСТОВАЯ МОДЕЛЬ (Если твоя не грузится, попробуй эту ссылку):
+      // const modelPath = 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/DamagedHelmet/glTF-Binary/DamagedHelmet.glb';
+
+      loader.load(
+        modelPath,
+        (gltf) => {
+          info.innerText = "УСПЕХ! ВРАЩАЙ МЫШКОЙ";
+          const model = gltf.scene;
+
+          // Авто-центровка
+          const box = new THREE.Box3().setFromObject(model);
+          const center = box.getCenter(new THREE.Vector3());
+          model.position.x = -center.x;
+          model.position.y = -center.y;
+          model.position.z = -center.z;
+
+          // Авто-масштаб (чтобы влезло в экран)
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = 3 / maxDim;
+          model.scale.set(scale, scale, scale);
+
+          scene.add(model);
+
+          // Простая анимация вращения для проверки
+          const animate = () => {
+            requestAnimationFrame(animate);
+            model.rotation.y += 0.01;
+            renderer.render(scene, camera);
+          };
+          animate();
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        },
+        (error) => {
+          console.error("ОШИБКА:", error);
+          info.innerText = "ОШИБКА (СМ. КОНСОЛЬ F12)";
+          info.style.color = "red";
+        },
+      );
+
+      // Ресайз
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
+</html>

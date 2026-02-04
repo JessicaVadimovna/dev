@@ -1,0 +1,7 @@
+#cyber-bg-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -9999;
+    /* Глубокий темный фон, почти черный */
+    background: radial-gradient(circle at center, #080c10 0%, #000000 100%);
+}

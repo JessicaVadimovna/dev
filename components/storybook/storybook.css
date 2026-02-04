@@ -1,0 +1,260 @@
+/* Storybook Component Styles */
+.story-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Разделитель секции */
+.cyber-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.sep-line {
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(90deg, transparent, var(--color-primary, #00f3ff), transparent);
+    opacity: 0.5;
+}
+
+.section-title {
+    font-family: 'Courier Prime', monospace;
+    color: var(--color-primary, #00f3ff);
+    text-shadow: 0 0 10px var(--color-primary, #00f3ff);
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
+
+/* Сетка */
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* Карточка */
+.story-card {
+    background: rgba(10, 15, 20, 0.7);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+}
+
+.story-card:hover {
+        /* Было: transform: translateY(-5px); */
+    
+    /* Стало: чуть увеличиваем размер */
+    transform: scale(1.02); 
+    border-color: var(--color-primary, #00f3ff);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.story-card::before {
+    content: attr(data-step);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.1);
+    z-index: 2;
+    transition: color 0.3s;
+}
+
+.story-card:hover::before {
+    color: var(--color-primary, #00f3ff);
+}
+
+/* Картинка */
+.story-img-wrap {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.story-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.story-card:hover .story-img {
+    transform: scale(1.1);
+}
+
+/* Оверлей при наведении */
+.story-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    /* Делаем фон полупрозрачным синим вместо черного */
+    background: rgba(0, 243, 255, 0.2); 
+    /* (Опционально) Добавляем режим наложения для свечения */
+    mix-blend-mode: hard-light;
+}
+
+.story-card:hover .story-overlay {
+    opacity: 1;
+}
+
+.view-btn {
+    border: 1px solid var(--color-primary, #00f3ff);
+    color: var(--color-primary, #00f3ff);
+    padding: 5px 15px;
+    font-family: 'Courier Prime', monospace;
+    font-weight: bold;
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+/* Контент карточки */
+.story-content {
+    padding: 15px;
+}
+
+.story-content h3 {
+    font-family: 'Courier Prime', monospace;
+    color: #fff;
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+}
+
+.story-short {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin: 0;
+}
+
+.story-hidden {
+    display: none;
+}
+
+/* Широкая карточка */
+.story-card-wide {
+    grid-column: 1 / -1;
+}
+.story-card-wide .story-img-wrap {
+    height: 300px;
+}
+
+/* === MODAL STYLES === */
+.story-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.story-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.modal-frame {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    background: #050a10;
+    border: 1px solid var(--color-primary, #00f3ff);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+}
+
+.story-modal.active .modal-frame {
+    transform: scale(1);
+}
+
+.modal-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+@media(min-width: 768px) {
+    .modal-inner {
+        flex-direction: row;
+    }
+    .modal-image {
+        width: 60%;
+        height: auto;
+        max-height: 70vh;
+    }
+    .modal-text-block {
+        width: 40%;
+    }
+}
+
+.modal-image {
+    width: 100%;
+    object-fit: cover;
+    border-right: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.modal-text-block {
+    padding: 30px;
+    font-family: 'Courier Prime', monospace;
+}
+
+.sys-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--color-primary, #00f3ff);
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    border: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+.modal-text-block h3 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.modal-text-block p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--color-primary, #00f3ff);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+}

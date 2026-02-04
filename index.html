@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="ru">
+  <!-- ============================================
+       HEAD SECTION - Мета-теги, стили, шрифты
+       ============================================ -->
+  <head>
+    <!-- Базовые мета-теги -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JessiLis</title>
+    <link rel="icon" href="/assets/img/favicon/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="/assets/img/favicon/favicon-32x32.png"
+      type="image/png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      href="/assets/img/favicon/favicon-16x16.png"
+      type="image/png"
+      sizes="16x16"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      href="/assets/img/favicon/apple-touch-icon.png"
+    />
+
+    <link rel="manifest" href="/assets/img/favicon/site.webmanifest" />
+
+    <!-- Google Fonts -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap");
+    </style>
+
+    <!-- Подключение компонентов стилей -->
+    <link rel="stylesheet" href="components/scrollReveal/scrollReveal.css" />
+    <link rel="stylesheet" href="components/header/header.css" />
+    <link rel="stylesheet" href="components/background/background.css" />
+    <link rel="stylesheet" href="components/skills/skills.css" />
+    <link rel="stylesheet" href="components/mp3/mp3.css" />
+    <link rel="stylesheet" href="components/loader/loader.css" />
+    <link rel="stylesheet" href="components/storybook/storybook.css" />
+    <link rel="stylesheet" href="/components/hologram/hologram.css" />
+    <link rel="stylesheet" href="/components/hero/cv.css" />
+    <link rel="stylesheet" href="/components/bear/bear.css" />
+    <link rel="stylesheet" href="/components/diva/diva.css" />
+    <link rel="stylesheet" href="/components/cards/cards.css" />
+    <link rel="stylesheet" href="/components/arcade/arcade.css" />
+    <link rel="stylesheet" href="/components/interests/interests.css" />
+    <link rel="stylesheet" href="/components/ticker/ticker.css" />
+
+    <!-- Глобальные стили -->
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/variables.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- FontAwesome для иконок -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+
+  <!-- ============================================
+       BODY - Основной контент страницы
+       ============================================ -->
+  <body>
+    <!-- ============================================
+         ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ
+         ============================================ -->
+
+    <!-- Висящий медведь (декоративный элемент) -->
+    <div id="hanging-bear-wrapper" class="bear-wrapper">
+      <div class="bear-glow-effect"></div>
+      <img
+        src="./assets/img/bear.webp"
+        alt="Magic Bear"
+        id="hanging-bear"
+        class="bear-img"
+      />
+    </div>
+
+    <!-- ============================================
+         LOADER - Экран загрузки
+         ============================================ -->
+    <div id="simple-loader" class="simple-loader">
+      <div class="loader-wrapper">
+        <div class="loader-header">
+          <span class="sys-text">SYSTEM BOOT</span>
+          <span class="sys-status" id="sys-status">CHECKING...</span>
+        </div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+          <div class="progress-glow" id="progress-glow"></div>
+        </div>
+
+        <div class="loader-footer">
+          <span class="mono-text">MEM: <span id="mem-val">64</span>TB</span>
+          <span class="percent-text" id="percent-text">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         BACKGROUND - Анимированный фон со звездами
+         ============================================ -->
+    <div id="cyber-bg-container">
+      <canvas id="cyber-bg"></canvas>
+    </div>
+
+    <!-- ============================================
+         MAIN CONTENT - Основной контент (скрыт до загрузки)
+         ============================================ -->
+    <div id="mainContent" style="display: none">
+      <!-- Прогресс-бар прокрутки -->
+      <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+
+      <!-- ============================================
+           NAVIGATION - Шапка и навигация
+           ============================================ -->
+      <header class="neon-header" id="main-header">
+        <nav class="neon-nav">
+          <a href="#home" class="neon-link active">
+            <i class="fas fa-home"></i> ГЛАВНАЯ
+          </a>
+          <a href="#about" class="neon-link">
+            <i class="fas fa-info-circle"></i> ОБО МНЕ
+          </a>
+          <a href="#skills" class="neon-link">
+            <i class="fas fa-layer-group"></i> МОИ НАВЫКИ
+          </a>
+          <a href="#projects" class="neon-link">
+            <i class="fas fa-briefcase"></i> ПОРТФОЛИО
+          </a>
+          <a href="#contact" class="neon-link">
+            <i class="fas fa-envelope"></i> КОНТАКТЫ
+          </a>
+        </nav>
+
+        <!-- Бургер-меню для мобильных -->
+        <button class="neon-burger" id="sysBurger" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </header>
+
+      <!-- Мобильное меню -->
+      <div class="sys-mobile-menu" id="sysMobileMenu">
+        <div class="mobile-menu-bg"></div>
+        <nav class="sys-mobile-nav">
+          <a href="#home" class="mobile-link">01 // HOME</a>
+          <a href="#about" class="mobile-link">02 // ABOUT</a>
+          <a href="#skills" class="mobile-link">03 // SKILLS</a>
+          <a href="#projects" class="mobile-link">04 // PROJECTS</a>
+          <a href="#story" class="mobile-link">05 // STORY</a>
+          <a href="#contact" class="mobile-link">06 // CONTACT</a>
+        </nav>
+        <div class="sys-menu-footer">
+          <p>
+            SYSTEM STATUS:
+            <span style="color: var(--c-neon-green)">ONLINE</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- ============================================
+           HERO SECTION - Главный заголовок
+           ============================================ -->
+      <div class="hud-main-wrapper">
+        <div class="hero-title-block">
+          <h1 class="neon-title-main">JESSILIS</h1>
+          <h2 class="neon-subtitle">FRONTEND DEVELOPER</h2>
+        </div>
+      </div>
+
+      <!-- ============================================
+           ABOUT SECTION - Информация обо мне (3 колонки)
+           ============================================ -->
+      <div class="hud-main-wrapper">
+        <!-- ЛЕВАЯ КОЛОНКА - Образование и опыт -->
+        <div class="hud-column left-monitor">
+          <!-- Карточка: Образование -->
+          <div class="tech-card scroll-reveal-left">
+            <div class="card-decor-top"></div>
+            <h3 class="tech-title">
+              <i class="fas fa-graduation-cap"></i> EDUCATION_DATA
+            </h3>
+
+            <div class="edu-minimal">
+              <div class="edu-row">
+                <span class="label">UNIVERSITY:</span>
+                <span class="value highlight">ИРНИТУ</span>
+              </div>
+
+              <div class="edu-row">
+                <span class="label">DEGREE:</span>
+                <div class="value-badge">
+                  <span class="value">BACHELOR</span>
+                  <span class="status-dot"></span>
+                  <span class="status-text">COMPLETED</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Карточка: Опыт работы -->
+          <div class="tech-card scroll-reveal-left scroll-reveal-delay-1">
+            <div class="card-decor-top"></div>
+            <h3 class="tech-title">
+              <i class="fas fa-briefcase"></i> ОПЫТ_РАБОТЫ
+            </h3>
+            <ul class="mission-list">
+              <li class="mission-item active">
+                <div class="mission-time">NOW</div>
+                <div class="mission-info">
+                  <strong>PET PROJECTS</strong>
+                  <small>Frontend Developer</small>
+                </div>
+              </li>
+              <li class="mission-item">
+                <div class="mission-time">2025</div>
+                <div class="mission-info">
+                  <strong>TIDDLE APP <a href="https://tiddle.app"></a></strong>
+                  <small>Frontend Developer</small>
+                </div>
+              </li>
+              <li class="mission-item">
+                <div class="mission-time">2024</div>
+                <div class="mission-info">
+                  <strong>ALFA ECO</strong>
+                  <small>Junior Developer</small>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА - Видео -->
+        <div class="hud-spacer-center">
+          <video
+            class="hud-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="/assets/img/video-preview.webp"
+          >
+            <source src="/assets/video/diva.mp4" type="video/mp4" />
+            Ваш браузер не поддерживает видео.
+          </video>
+        </div>
+
+        <!-- ПРАВАЯ КОЛОНКА - Навыки и резюме -->
+        <div class="hud-column right-monitor">
+          <!-- Карточка: Навыки -->
+          <div class="tech-card scroll-reveal-right">
+            <div class="card-decor-top"></div>
+            <h3 class="tech-title">
+              <i class="fas fa-th-large"></i> МОИ_НАВЫКИ
+            </h3>
+
+            <div class="panels-grid">
+              <!-- Основная панель навыков -->
+              <div class="glass-panel main">
+                <div class="gp-icon"><i class="fab fa-react"></i></div>
+                <div class="gp-info">
+                  <span class="gp-title">REACT ECOSYSTEM</span>
+                  <span class="gp-desc">Next.js, Redux Toolkit, SSR</span>
+                </div>
+                <div class="gp-level"></div>
+              </div>
+
+              <!-- Дополнительные панели -->
+              <div class="glass-panel">
+                <div class="gp-icon"><i class="fab fa-js"></i></div>
+                <div class="gp-info">
+                  <span class="gp-title">CORE LANGUAGES</span>
+                  <span class="gp-desc">TypeScript, ES6+, Async</span>
+                </div>
+              </div>
+
+              <div class="glass-panel">
+                <div class="gp-icon"><i class="fas fa-wind"></i></div>
+                <div class="gp-info">
+                  <span class="gp-title">UI ENGINEERING</span>
+                  <span class="gp-desc">Tailwind, SCSS, Motion</span>
+                </div>
+              </div>
+
+              <!-- Дополнительные технологии -->
+              <div class="gp-chips">
+                <span><i class="fas fa-cubes"></i> Three.js</span>
+                <span><i class="fab fa-git-alt"></i> Git/Flow</span>
+                <span><i class="fab fa-docker"></i> Docker</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Карточка: Скачать резюме -->
+          <div class="tech-card scroll-reveal-right scroll-reveal-delay-1">
+            <div class="card-decor-top"></div>
+            <h3 class="tech-title">
+              <i class="fas fa-file-contract"></i> РЕЗЮМЕ
+            </h3>
+
+            <div class="cv-wrapper">
+              <!-- Lite версия (просмотр) -->
+              <a
+                href="./assets/cv-lite.pdf"
+                target="_blank"
+                class="cv-btn lite"
+              >
+                <div class="cv-icon"><i class="far fa-eye"></i></div>
+                <div class="cv-content">
+                  <span class="cv-name">RESUME.TXT</span>
+                  <span class="cv-desc">Lite Version (Preview)</span>
+                </div>
+              </a>
+
+              <!-- Full версия (скачивание) -->
+              <a href="./assets/cv-full.pdf" download class="cv-btn pro">
+                <div class="cv-icon"><i class="fas fa-download"></i></div>
+                <div class="cv-content">
+                  <span class="cv-name">RESUME.PDF</span>
+                  <span class="cv-desc">Full Version (Print)</span>
+                </div>
+                <div class="active-dot"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           PORTFOLIO SECTION - Портфолио проектов
+           ============================================ -->
+      <div class="control-panel-bottom unified-container" id="projects">
+        <!-- Заголовок секции -->
+        <div class="cyber-separator">
+          <span class="sep-line"></span>
+          <h2 class="section-title">/// ПОРТФОЛИО ///</h2>
+          <span class="sep-line"></span>
+        </div>
+
+        <!-- Сетка проектов -->
+        <div class="cyber-projects-grid">
+          <!-- Проект 1 -->
+          <article class="cyber-project-card scroll-reveal-scale">
+            <div class="cp-corner top-left"></div>
+            <div class="cp-corner bottom-right"></div>
+
+            <div class="cp-preview">
+              <img
+                src="./assets/img/demo/project1.webp"
+                alt="Architect Premium Preview"
+                onerror="
+                  this.src =
+                    'https://placehold.co/600x350/0a0a0a/f0f0f0?text=ARCHITECT_PREMIUM'
+                "
+              />
+              <div class="cp-overlay">
+                <a
+                  href="https://github.com/JessicaVadimovna/aesthetic"
+                  target="_blank"
+                  class="cp-btn"
+                >
+                  <i class="fab fa-github"></i> CODE
+                </a>
+                <a
+                  href="https://jessicavadimovna.github.io/aesthetic/"
+                  target="_blank"
+                  class="cp-btn secondary"
+                >
+                  <i class="fas fa-external-link-alt"></i> LIVE_DEMO
+                </a>
+              </div>
+            </div>
+
+            <div class="cp-content">
+              <div class="cp-header">
+                <h3 class="cp-title">ARCHITECT // PREMIUM</h3>
+                <span class="cp-status">STABLE v.2.0</span>
+              </div>
+              <p class="cp-desc">
+                Премиальный лонгрид в стиле брутализма.
+                <strong>Performance-first:</strong> кастомный двойной курсор,
+                продвинутые Intersection Observer анимации и плавная
+                типографика. Полная оптимизация медиа (WebP/HD Video) и
+                Zero-Dependency подход.
+              </p>
+              <div class="cp-stack">
+                <span>Vanilla JS (ES6+)</span>
+                <span>HTML5 Semantic</span>
+                <span>CSS Grid/Custom Prop</span>
+                <span>Web API</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Проект 2: TASK_MATRIX -->
+          <article
+            class="cyber-project-card scroll-reveal-scale"
+            style="transition-delay: 0.1s"
+          >
+            <div class="cp-corner top-left"></div>
+            <div class="cp-corner bottom-right"></div>
+
+            <!-- Превью проекта -->
+            <div class="cp-preview">
+              <img
+                src="./assets/img/projects/project2.webp"
+                alt="Project Preview"
+                onerror="
+                  this.src =
+                    'https://placehold.co/600x350/050a14/00ff9d?text=PROJECT_IMG'
+                "
+              />
+              <div class="cp-overlay">
+                <a href="#" target="_blank" class="cp-btn">
+                  <i class="fab fa-github"></i> CODE
+                </a>
+                <a href="#" target="_blank" class="cp-btn secondary">
+                  <i class="fas fa-external-link-alt"></i> DEMO
+                </a>
+              </div>
+            </div>
+
+            <!-- Описание проекта -->
+            <div class="cp-content">
+              <div class="cp-header">
+                <h3 class="cp-title">TASK_MATRIX</h3>
+                <span class="cp-status">WIP</span>
+              </div>
+              <p class="cp-desc">
+                Трекер задач в стиле ретро-терминала. Поддержка drag-n-drop,
+                локальное хранилище и темы.
+              </p>
+              <div class="cp-stack">
+                <span>TypeScript</span>
+                <span>Vite</span>
+                <span>Zustand</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Ссылка на полный архив проектов -->
+        <div class="repo-link-wrapper scroll-reveal-scale">
+          <div class="repo-line"></div>
+          <a
+            href="https://github.com/твое-имя-пользователя"
+            target="_blank"
+            class="repo-btn"
+          >
+            <span class="repo-icon"><i class="fab fa-github"></i></span>
+            <span class="repo-text">
+              <span class="glitch-effect" data-text="ACCESS_FULL_ARCHIVE">
+                ACCESS_FULL_ARCHIVE
+              </span>
+              <small>View all repositories</small>
+            </span>
+            <i class="fas fa-angle-double-right arrow-anim"></i>
+          </a>
+          <div class="repo-line"></div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           ARCADE SECTION - Интерактивная 3D зона
+           ============================================ -->
+      <div class="unified-container" id="arcade-zone">
+        <div class="cyber-separator">
+          <span class="sep-line"></span>
+          <h2 class="section-title">/// ARCADE_MODE ///</h2>
+          <span class="sep-line"></span>
+        </div>
+
+        <!-- 3D viewport -->
+        <div id="arcade-3d-wrapper" class="arcade-viewport"></div>
+      </div>
+
+      <!-- ============================================
+           STORY SECTION - История развития
+           ============================================ -->
+      <section id="story-section" class="story-container unified-container">
+        <!-- Заголовок секции -->
+        <div class="cyber-separator">
+          <span class="sep-line"></span>
+          <h2 class="section-title">/// ОБО МНЕ ///</h2>
+          <span class="sep-line"></span>
+        </div>
+
+        <!-- Сетка карточек истории -->
+        <div class="story-grid">
+          <!-- Карточка 1: INIT_SYSTEM -->
+          <article class="story-card reveal clickable" data-step="01">
+            <div class="story-img-wrap">
+              <img
+                src="./assets/img/comics/step1.webp"
+                alt="Childhood PC"
+                class="story-img"
+              />
+              <div class="story-overlay">
+                <span class="view-btn">DECRYPT</span>
+              </div>
+            </div>
+            <div class="story-content">
+              <h3>INIT_SYSTEM</h3>
+              <p class="story-short">Первое знакомство с ПК.</p>
+              <div class="story-hidden">
+                Глубокое погружение в технологии началось с простых игр, но
+                быстро переросло в интерес к архитектуре систем.
+              </div>
+            </div>
+          </article>
+
+          <!-- Карточка 2: NEW_THREAD -->
+          <article class="story-card reveal clickable" data-step="02">
+            <div class="story-img-wrap">
+              <img
+                src="./assets/img/comics/step2.webp"
+                alt="Coding Interest"
+                class="story-img"
+              />
+              <div class="story-overlay">
+                <span class="view-btn">DECRYPT</span>
+              </div>
+            </div>
+            <div class="story-content">
+              <h3>NEW_THREAD</h3>
+              <p class="story-short">Осознание силы кода.</p>
+              <div class="story-hidden">
+                В школе я начала верстать первые страницы. Несмотря на внешнее
+                давление, я продолжала писать код по ночам.
+              </div>
+            </div>
+          </article>
+
+          <!-- Карточка 3: HARD_MODE -->
+          <article class="story-card reveal clickable" data-step="03">
+            <div class="story-img-wrap">
+              <img
+                src="./assets/img/comics/step3.webp"
+                alt="University"
+                class="story-img"
+              />
+              <div class="story-overlay">
+                <span class="view-btn">DECRYPT</span>
+              </div>
+            </div>
+            <div class="story-content">
+              <h3>HARD_MODE</h3>
+              <p class="story-short">Университет и дисциплина.</p>
+              <div class="story-hidden">
+                Учеба в МВД дала мне железную дисциплину. Я научилась доводить
+                скучные задачи до конца.
+              </div>
+            </div>
+          </article>
+
+          <!-- Карточка 4: LEGACY_CODE -->
+          <article class="story-card reveal clickable" data-step="04">
+            <div class="story-img-wrap">
+              <img
+                src="./assets/img/comics/step4.webp"
+                alt="Police Work"
+                class="story-img"
+              />
+              <div class="story-overlay">
+                <span class="view-btn">DECRYPT</span>
+              </div>
+            </div>
+            <div class="story-content">
+              <h3>LEGACY_CODE</h3>
+              <p class="story-short">Рутина. Прокачка стойкости.</p>
+              <div class="story-hidden">
+                Работа без творчества, но стрессоустойчивость прокачана до
+                уровня Senior. Дедлайны меня больше не пугают.
+              </div>
+            </div>
+          </article>
+
+          <!-- Карточка 5: GIT_CHECKOUT -->
+          <article class="story-card reveal clickable" data-step="05">
+            <div class="story-img-wrap">
+              <img
+                src="./assets/img/comics/step5.webp"
+                alt="Leaving"
+                class="story-img"
+              />
+              <div class="story-overlay">
+                <span class="view-btn">DECRYPT</span>
+              </div>
+            </div>
+            <div class="story-content">
+              <h3>GIT_CHECKOUT</h3>
+              <p class="story-short">Волевое решение уйти.</p>
+              <div class="story-hidden">
+                Самый сложный коммит в жизни. Оставила стабильность ради мечты
+                стать разработчиком.
+              </div>
+            </div>
+          </article>
+
+          <!-- Карточка 6: NPM_INSTALL -->
+          <article class="story-card reveal clickable" data-step="06">
+            <div class="story-img-wrap">
+              <img
+                src="./assets/img/comics/step6.webp"
+                alt="Learning"
+                class="story-img"
+              />
+              <div class="story-overlay">
+                <span class="view-btn">DECRYPT</span>
+              </div>
+            </div>
+            <div class="story-content">
+              <h3>NPM_INSTALL</h3>
+              <p class="story-short">Хардкорное обучение 24/7.</p>
+              <div class="story-hidden">
+                React, API, DOM. Я поняла, как работает браузер под капотом, и
+                написала свои первые SPA.
+              </div>
+            </div>
+          </article>
+
+          <!-- Карточка 7: DEPLOY_SUCCESS (широкая) -->
+          <article
+            class="story-card story-card-wide reveal clickable"
+            data-step="07"
+          >
+            <div class="story-img-wrap">
+              <img
+                src="./assets/img/comics/step7.webp"
+                alt="Current Setup"
+                class="story-img"
+              />
+              <div class="story-overlay">
+                <span class="view-btn">DECRYPT</span>
+              </div>
+            </div>
+            <div class="story-content">
+              <h3>DEPLOY_SUCCESS</h3>
+              <p class="story-short">Я на своем месте. Осознанный выбор.</p>
+              <div class="story-hidden">
+                Теперь я строю интерфейсы, которые помогают людям. Мой путь -
+                это не прямая линия, но каждый шаг был важен.
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================================
+           INTERESTS SECTION - Интересы и увлечения
+           ============================================ -->
+      <section id="interests" class="unified-container">
+        <!-- Заголовок секции -->
+        <div class="cyber-separator">
+          <span class="sep-line"></span>
+          <h2 class="section-title">/// R&D_SECTOR ///</h2>
+          <span class="sep-line"></span>
+        </div>
+
+        <!-- Сетка интересов -->
+        <div class="interests-grid scroll-reveal-scale">
+          <!-- Интерес 1: 3D & Prototyping -->
+          <div class="interest-node">
+            <div class="node-circle-wrap">
+              <div class="node-rotate-border"></div>
+              <div class="node-img">
+                <img src="./assets/img/interests/3d.webp" alt="3D Modeling" />
+              </div>
+            </div>
+            <span class="node-label">3D & PROTOTYPING</span>
+            <span class="node-sub">Blender / Printing</span>
+          </div>
+
+          <!-- Интерес 2: AI Integration -->
+          <div class="interest-node">
+            <div class="node-circle-wrap">
+              <div class="node-rotate-border"></div>
+              <div class="node-img">
+                <img
+                  src="./assets/img/interests/ai.webp"
+                  alt="Artificial Intelligence"
+                />
+              </div>
+            </div>
+            <span class="node-label">AI INTEGRATION</span>
+            <span class="node-sub">Neural Networks</span>
+          </div>
+
+          <!-- Интерес 3: Science & Cosmos -->
+          <div class="interest-node">
+            <div class="node-circle-wrap">
+              <div class="node-rotate-border"></div>
+              <div class="node-img">
+                <img src="./assets/img/interests/space.webp" alt="Science" />
+              </div>
+            </div>
+            <span class="node-label">SCIENCE & COSMOS</span>
+            <span class="node-sub">Analytical Mindset</span>
+          </div>
+
+          <!-- Интерес 4: Interactive Experience -->
+          <div class="interest-node">
+            <div class="node-circle-wrap">
+              <div class="node-rotate-border"></div>
+              <div class="node-img">
+                <img
+                  src="./assets/img/interests/games.webp"
+                  alt="Interactive"
+                />
+              </div>
+            </div>
+            <span class="node-label">INTERACTIVE EXP.</span>
+            <span class="node-sub">UX & Game Mechanics</span>
+          </div>
+
+          <!-- Интерес 5: Knowledge Base -->
+          <div class="interest-node">
+            <div class="node-circle-wrap">
+              <div class="node-rotate-border"></div>
+              <div class="node-img">
+                <img src="./assets/img/interests/books.webp" alt="Books" />
+              </div>
+            </div>
+            <span class="node-label">KNOWLEDGE BASE</span>
+            <span class="node-sub">Sci-Fi & Tech Lit</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           CONTACT SECTION - Контакты с голограммой
+           ============================================ -->
+      <div class="unified-container">
+        <!-- Заголовок секции -->
+        <div class="cyber-separator">
+          <span class="sep-line"></span>
+          <h2 class="section-title">/// КОНТАКТЫ ///</h2>
+          <span class="sep-line"></span>
+        </div>
+
+        <!-- Контейнер голограммы -->
+        <div class="hologram-wrapper-bottom" id="contact">
+          <div class="hologram-container"></div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           FOOTER - Подвал сайта
+           ============================================ -->
+      <footer class="footer">
+        <div class="footer-bottom">
+          <p class="neon-border">
+            © 2025 JessiLis PORTFOLIO
+            <span class="footer-small"><br />System Version 2.0.4</span>
+          </p>
+          <p class="system-status">
+            &gt; SYSTEM STATUS: OPTIMAL&nbsp;|&nbsp;SECURITY: MAX
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ============================================
+         MODALS - Модальные окна
+         ============================================ -->
+
+    <!-- Модальное окно для детального просмотра истории -->
+    <div id="story-modal" class="story-modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-frame">
+        <button class="modal-close-btn">&times;</button>
+        <div class="modal-inner">
+          <img src="" alt="" class="modal-image" id="modal-img-target" />
+          <div class="modal-text-block">
+            <span class="sys-badge">LOG_ENTRY_DETAILS</span>
+            <h3 id="modal-title-target" class="glitch-text">TITLE</h3>
+            <p id="modal-desc-target">Description goes here...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         TICKER - Бегущая строка внизу экрана
+         ============================================ -->
+    <div class="sys-ticker-bottom">
+      <div class="ticker-grid-bg"></div>
+
+      <div class="ticker-track-bottom">
+        <!-- Первая группа элементов бегущей строки -->
+        <div class="ticker-content-group">
+          <div class="ticker-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTZjYXc2d2NrZXpndWhvcTRqZjA5YW9oY2g5NHQxcDMzdG5oa2xjMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/toXKzaJP3WIgM/giphy.gif"
+              alt="Run"
+              class="pixel-icon"
+            />
+            <span class="lbl">STATUS:</span>
+            <span class="val highlight">OPEN TO WORK</span>
+          </div>
+          <div class="ticker-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2xiN2NxZm4xa2ZhNjNzY2Eybm51c29kdmFjNHZtZWVucnpmeWV0ZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yr7n0u3qzO9nG/giphy.gif"
+              alt="Save"
+              class="pixel-icon"
+            />
+            <span class="lbl">STACK:</span>
+            <span class="val">REACT / TS / THREE.JS</span>
+          </div>
+          <div class="ticker-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eXJ1ZTYzY2c0NmE2Z2JvaGRkd2NhamttNG81Mjd5YnFmdnJ5djNlZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Vo6xlTxdhpAoU/giphy.gif"
+              alt="Battery"
+              class="pixel-icon"
+            />
+            <span class="lbl">ENERGY:</span>
+            <span class="val">99% [COFFEE]</span>
+          </div>
+          <div class="ticker-item action-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzhtMTFkdnI5cjg3eDdmMDFpZ3QyeDEwYnlyYW5wcDBjZmZlYnRhaCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ytu2GUYbvhz7zShGwS/giphy.gif"
+              alt="Cursor"
+              class="pixel-icon"
+            />
+            <span class="val">CHECK MY PROJECTS BELOW</span>
+          </div>
+          <div class="ticker-item">
+            <i
+              class="far fa-clock"
+              style="margin-right: 10px; font-size: 14px"
+            ></i>
+            <span class="lbl">SYS_TIME:</span>
+            <span class="val">NOW</span>
+          </div>
+        </div>
+
+        <!-- Дублированная группа для бесшовной анимации -->
+        <div class="ticker-content-group">
+          <div class="ticker-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTZjYXc2d2NrZXpndWhvcTRqZjA5YW9oY2g5NHQxcDMzdG5oa2xjMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/toXKzaJP3WIgM/giphy.gif"
+              alt="Run"
+              class="pixel-icon"
+            />
+            <span class="lbl">STATUS:</span>
+            <span class="val highlight">OPEN TO WORK</span>
+          </div>
+          <div class="ticker-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2xiN2NxZm4xa2ZhNjNzY2Eybm51c29kdmFjNHZtZWVucnpmeWV0ZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yr7n0u3qzO9nG/giphy.gif"
+              alt="Save"
+              class="pixel-icon"
+            />
+            <span class="lbl">STACK:</span>
+            <span class="val">REACT / TS / THREE.JS</span>
+          </div>
+          <div class="ticker-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eXJ1ZTYzY2c0NmE2Z2JvaGRkd2NhamttNG81Mjd5YnFmdnJ5djNlZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Vo6xlTxdhpAoU/giphy.gif"
+              alt="Battery"
+              class="pixel-icon"
+            />
+            <span class="lbl">ENERGY:</span>
+            <span class="val">99% [COFFEE]</span>
+          </div>
+          <div class="ticker-item action-item">
+            <img
+              src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzhtMTFkdnI5cjg3eDdmMDFpZ3QyeDEwYnlyYW5wcDBjZmZlYnRhaCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ytu2GUYbvhz7zShGwS/giphy.gif"
+              alt="Cursor"
+              class="pixel-icon"
+            />
+            <span class="val">CHECK MY PROJECTS BELOW</span>
+          </div>
+          <div class="ticker-item">
+            <i
+              class="far fa-clock"
+              style="margin-right: 10px; font-size: 14px"
+            ></i>
+            <span class="lbl">SYS_TIME:</span>
+            <span class="val">NOW</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SCRIPTS - Подключение JavaScript библиотек
+         ============================================ -->
+
+    <!-- Three.js библиотеки -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+
+    <!-- GSAP анимации -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- Компоненты приложения -->
+    <script src="components/scrollReveal/scrollReveal.js"></script>
+    <script src="script.js"></script>
+    <script src="components/loader/loader.js"></script>
+    <script src="components/header/header.js"></script>
+    <script src="components/background/background.js"></script>
+    <script src="components/skills/skills.js"></script>
+    <script src="components/mp3/mp3.js"></script>
+    <script src="components/storybook/storybook.js"></script>
+    <script src="components/hologram/hologram.js"></script>
+    <script src="/components/hero/cv.js"></script>
+    <script src="/components/bear/bear.js"></script>
+    <script src="/components/arcade/arcade.js"></script>
+  </body>
+</html>
