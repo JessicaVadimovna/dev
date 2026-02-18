@@ -386,18 +386,26 @@ body::after {
         perspective: none;
     }
     
-    .hud-spacer-center {
-        width: 100%;
-        order: -1;
-        margin-bottom: 40px;
-        display: none;
-    }
-    
     .left-monitor, 
     .right-monitor {
         width: 100%;
         max-width: 500px;
         transform: none;
+    }
+}
+
+@media (max-width: 1200px) {
+    .hud-spacer-center {
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto 40px;
+        order: -1;
+    }
+    
+    .hud-video {
+        width: 100%;
+        height: auto;
+        display: block;
     }
 }
 
@@ -466,6 +474,10 @@ body::after {
     .modules-grid {
         grid-template-columns: 1fr;
     }
+
+    .hud-spacer-center {
+    max-width: 100%;
+}
 }
 
 /* Small mobile (480px) */

@@ -120,31 +120,31 @@ class HologramVisualizer {
             models: [
                 { 
                     file: 'assets/img/svg/github.svg', 
-                    color: '#ff9d0b', title: 'PORTFOLIO', subtitle: 'SYSTEM // CORE', desc: 'Main Projects Hub.', link: '#',
-                    fixY: 0,       // Стоит ровно
+                    color: '#ff9d0b', title: 'PORTFOLIO', subtitle: 'SYSTEM // CORE', desc: 'Main Projects Hub.', link: 'https://github.com/JessicaVadimovna',
+                    fixY: 0,
                     fixScale: 1.0 
                 },
                 { 
                     file: 'assets/img/svg/telegram.svg', 
-                    color: '#2AABEE', title: 'TELEGRAM', subtitle: 'COMMUNICATION', desc: 'Direct secure channel.', link: '#',
-                    fixY: -0.15,   // Опускаем вниз, так как он обычно высок
+                    color: '#2AABEE', title: 'TELEGRAM', subtitle: 'COMMUNICATION', desc: 'Direct secure channel.', link: 'https://t.me/JessiLis',
+                    fixY: -0.15,
                     fixScale: 0.95 
                 },
                 { 
                     file: 'assets/img/svg/linkedin.svg', 
-                    color: '#0077b5', title: 'LINKEDIN', subtitle: 'NETWORK', desc: 'Professional dossier.', link: '#',
+                    color: '#0077b5', title: 'LINKEDIN', subtitle: 'NETWORK', desc: 'Professional dossier.', link: 'https://www.linkedin.com/in/jessilis',
                     fixY: -0.1,    // Чуть опускаем
                     fixScale: 1.0 
                 },
                 { 
                     file: 'assets/img/svg/codepen.svg', 
-                    color: '#39b906', title: 'CODEPEN', subtitle: 'SANDBOX', desc: 'Experimental code.', link: '#',
+                    color: '#39b906', title: 'CODEPEN', subtitle: 'SANDBOX', desc: 'Experimental code.', link: 'https://codepen.io/JessiLis',
                     fixY: -0.1, 
                     fixScale: 1.0 
                 },
                 { 
                     file: 'assets/img/svg/email.svg', 
-                    color: '#c300ff', title: 'CONTACT', subtitle: 'TRANSMISSION', desc: 'Send electronic mail.', link: 'mailto:mail@example.com',
+                    color: '#c300ff', title: 'CONTACT', subtitle: 'TRANSMISSION', desc: 'Send electronic mail.', link: 'mailto:jessilisdevjob@gmail.com',
                     fixY: 0, 
                     fixScale: 1.0 
                 }

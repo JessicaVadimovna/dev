@@ -85,11 +85,12 @@ function initArcadeMachine() {
     // 4. МАСШТАБ (ЗУМ)
     // Если видео "слишком увеличено", нужно УВЕЛИЧИВАТЬ эти значения.
     // Первое число - ширина (X), второе - высота (Y).
-    videoTexture.repeat.set(1.5, 2);
+    videoTexture.repeat.set(3.5, 3.5);
 
     // 5. СМЕЩЕНИЕ
     // Диапазон от -0.5 до 0.5.
-    videoTexture.offset.set(0, -0.3); // X, Y
+    videoTexture.offset.set(-0.8, -1.3); // X, Y
+
 
     const screenMat = new THREE.MeshBasicMaterial({ 
         map: videoTexture, 
